@@ -9,16 +9,21 @@ const initialState = [
   {
     id: "2",
     title: "Slices...",
-    content: "The more I say Slice, the more I wanat pizza",
+    content: "The more I say Slice, the more I want pizza",
   },
 ];
 
 const postSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {},
+  reducers: {
+    postAdd(state, action) {
+      state.push(action.payload);
+    },
+  },
 });
 
-export const selectAllPosts = (state) => state.posts
+export const selectAllPosts = (state) => state.posts;
+export const {postAdd} = postSlice.actions 
 
 export default postSlice.reducer;
