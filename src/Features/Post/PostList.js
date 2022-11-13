@@ -1,9 +1,10 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
+import {selectAllPosts} from './postSlice'
 
 import React from "react";
 
 const PostList = () => {
-  const posts = useSelector((state) => state.post);
+  const posts = useSelector(selectAllPosts);
   return (
     <section>
         <h2>Posts</h2>
