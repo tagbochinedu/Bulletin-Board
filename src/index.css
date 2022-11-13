@@ -14,23 +14,75 @@ code {
 .main {
   background-color: rgb(31, 30, 30);
   min-height: 100vh;
-  padding: 20px 40px;
+  padding: 20px 5px;
   display: flex;
   justify-content: center;
   color: white;
 }
+.container {
+  min-width: 70%;
+}
+
+/*PostList Styling*/
+
 section h2 {
   text-align: center;
 }
 
 .post {
-  border:2px solid white;
+  border: 2px solid white;
   border-radius: 10px;
   margin: 15px auto;
   padding: 15px;
-  
+  max-width: 400px;
 }
-.post h3{
+.post h3 {
   font-size: 30px;
-  margin:13px auto
+  margin: 13px auto;
+}
+
+/*AddPostForm Styling*/
+.form-container {
+  margin-top: 40px;
+}
+.form-title {
+  margin: auto auto 0 auto;
+}
+.input-container {
+  margin: 20px auto;
+}
+form{
+  max-width: 500px;
+  margin: 0 auto;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+input {
+  width: 100%;
+  outline: none;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid rgb(31, 30, 30);
+}
+
+.btn-container {
+  margin-top: 20px;
+}
+
+.btn {
+  width: 101.3%;
+  height: 30px;
+  font-weight: bold;
+  background-color: rgb(236, 82, 82);
+  color: white;
+  outline: none;
+}
+.btn:hover {
+  background-color: rgb(241, 131, 131);
+}
+.btn:active {
+  background-color: rgb(236, 82, 82);
 }

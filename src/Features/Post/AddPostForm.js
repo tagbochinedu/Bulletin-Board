@@ -1,22 +1,25 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { postAdd } from "./postSlice";
-import { nanoid } from "@reduxjs/toolkit";
+
 
 const AddPostForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
 
-  const formSubmitHandler = () => {
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
     const body = { id: nanoid(), title: title, content: content };
     dispatch(postAdd(body));
+    setTitle('')
+    setContent('')
   };
   return (
-    <section>
-      <h2>Add A New Post</h2>
+    <section className="form-container">
+      <h2 className='form-title'>Add A New Post</h2>
       <form onSubmit={formSubmitHandler}>
-        <div>
+        <div className="input-container">
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -28,7 +31,7 @@ const AddPostForm = () => {
             }}
           />
         </div>
-        <div>
+        <div className="input-container">
           <label htmlFor="content">Content</label>
           <input
             type="text"
@@ -40,8 +43,8 @@ const AddPostForm = () => {
             }}
           />
         </div>
-        <div>
-          <button type="submit">Submit</button>
+        <div className="btn-container">
+          <button type="submit" className='btn'>Submit</button>
         </div>
       </form>
     </section>

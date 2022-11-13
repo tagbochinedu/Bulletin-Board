@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
+
 
 const initialState = [
   {
@@ -17,13 +18,22 @@ const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    postAdd(state, action) {
-      state.push(action.payload);
+    postAdd: {
+      reducer(state, action) {
+        state.push(action.payload);
+      },
+      prepare(title, content) {
+        return {
+          payload: {
+            id: nanoid(), title, content
+          }
+        }
+      }
     },
   },
 });
 
 export const selectAllPosts = (state) => state.posts;
-export const {postAdd} = postSlice.actions 
+export const { postAdd } = postSlice.actions;
 
 export default postSlice.reducer;
