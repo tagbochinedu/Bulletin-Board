@@ -10,7 +10,7 @@ const AddPostForm = () => {
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
-    const body = { id: nanoid(), title: title, content: content };
+    const body = {title, content };
     dispatch(postAdd(body));
     setTitle('')
     setContent('')
