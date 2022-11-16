@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postAdd } from "./postSlice";
+import {selectAllPosts} from './postSlice'
 
 
 const AddPostForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
+  const posts = useSelector(selectAllPosts);
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ const AddPostForm = () => {
             value={title}
             onChange={(e) => {
               setTitle(e.target.value);
+              console.log(posts)
             }}
           />
         </div>
