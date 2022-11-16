@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postAdd } from "./postSlice";
-import { selectAllPosts } from "./postSlice";
 import { selectAllUsers } from "../Users/userSlice";
 
 const AddPostForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
-  const posts = useSelector(selectAllPosts);
   const users = useSelector(selectAllUsers);
   const dispatch = useDispatch();
 
@@ -80,3 +78,6 @@ const AddPostForm = () => {
 };
 
 export default AddPostForm;
+
+
+

@@ -28,6 +28,10 @@ code {
 section h2 {
   text-align: center;
 }
+.post div {
+  display: flex;
+  justify-content: space-between;
+}
 
 .post {
   border: 2px solid white;
@@ -40,6 +44,10 @@ section h2 {
   font-size: 30px;
   margin: 13px auto;
 }
+.post span {
+  font-size: 12px;
+}
+
 
 /*AddPostForm Styling*/
 .form-container {
