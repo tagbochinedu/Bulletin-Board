@@ -14,12 +14,12 @@ const PostList = () => {
     timeAgo = `${timePeriod} ago`;
     return timeAgo;
   };
-  const orderedPosts = posts.slice().sort((a,b)=>b.date.localeCompare(a.date))
+  const OrderedPosts = posts.slice().sort((a,b)=>b.date.localeCompare(a.date))
 
   return (
     <section>
       <h2>Posts</h2>
-      {orderedPosts.map((post) => {
+      {OrderedPosts.map((post) => {
         const user = users.find((user) => user.name === post.userId);
         return (
           <article key={post.id} className="post">
