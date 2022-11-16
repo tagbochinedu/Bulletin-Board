@@ -64,8 +64,18 @@ input {
   width: 100%;
   outline: none;
   height: 30px;
+  font-size: 25px;
   border-radius: 5px;
   border: 1px solid rgb(31, 30, 30);
+  display: inline-flex;
+  align-items: center;
+}
+
+.input-select {
+  width: 100%;
+  height: 30px;
+  font-size: 25px;
+  outline: none;
 }
 
 .btn-container {
@@ -75,10 +85,15 @@ input {
 .btn {
   width: 101.3%;
   height: 30px;
+  font-size: 25px;
+  padding: 0 0 10px 0 0;
   font-weight: bold;
   background-color: rgb(236, 82, 82);
   color: white;
   outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .btn:hover {
   background-color: rgb(241, 131, 131);

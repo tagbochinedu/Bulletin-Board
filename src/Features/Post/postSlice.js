@@ -23,10 +23,10 @@ const postSlice = createSlice({
         state.push(action.payload);
       },
       //In the event that the action.payload has to be the mutated a bit, the prepare() callback is used to make additions or remove things from it.
-      prepare(title, content) {
+      prepare(body) {
         return {
           payload: {
-            id: nanoid(), title, content
+            id: nanoid(), title: body.title, content:body.content, userId:body.userId
           }
         }
       }
