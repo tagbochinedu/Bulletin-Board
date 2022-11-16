@@ -22,7 +22,7 @@ const postSlice = createSlice({
       reducer(state, action) {
         state.push(action.payload);
       },
-      //In the event that the action.payload has to be the mutated a bit, the prepare() callback is used to make additions or remove things from it
+      //In the event that the action.payload has to be the mutated a bit, the prepare() callback is used to make additions or remove things from it. 
       prepare(title, content) {
         return {
           payload: {
