@@ -1,11 +1,12 @@
-import { useSelector } from "react-redux";
-import { selectAllPosts } from "./postSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectAllPosts, reactionAdded } from "./postSlice";
 import { selectAllUsers } from "../Users/userSlice";
 import { parseISO, formatDistanceToNow } from "date-fns";
 
 const PostList = () => {
   const posts = useSelector(selectAllPosts);
   const users = useSelector(selectAllUsers);
+  const dispatch= useDispatch()
 
   const TimeStamp = (time) => {
     let timeAgo = "";
@@ -14,7 +15,18 @@ const PostList = () => {
     timeAgo = `${timePeriod} ago`;
     return timeAgo;
   };
-  const OrderedPosts = posts.slice().sort((a,b)=>b.date.localeCompare(a.date))
+  //code snippet for arranging posts from most recent to oldest
+  const OrderedPosts = posts
+    .slice()
+    .sort((a, b) => b.date.localeCompare(a.date));
+
+  const reactionEmoji = {
+    thumbsUp: "👍🏾",
+    wow: "😮",
+    heart: "❤️",
+    rocket: "🚀",
+    coffee: "☕",
+  };
 
   return (
     <section>
@@ -25,6 +37,23 @@ const PostList = () => {
           <article key={post.id} className="post">
             <h3>{post.title}</h3>
             <p>{post.content.substring(0, 100)}</p>
+            <div>
+              {Object.entries(reactionEmoji).map(([name, emoji]) => {
+                return (
+                  <button
+                    key={name}
+                    type="button"
+                    onClick={() => {
+                      dispatch(
+                        reactionAdded({ postId: post.id, reaction: name })
+                      );
+                    }}
+                  >
+                    {emoji} {post.reactions[name]}
+                  </button>
+                );
+              })}
+            </div>
             <div>
               <span>by {user ? post.userId : "Unknown Author"}</span>
               <span>
