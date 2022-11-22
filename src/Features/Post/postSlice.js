@@ -66,7 +66,7 @@ const postSlice = createSlice({
               rocket: 0,
               eyes: 0,
             };
-            return post;
+            return post
           });
           state.posts = state.posts.concat(loadedPosts);
         })
