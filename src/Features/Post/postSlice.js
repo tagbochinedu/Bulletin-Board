@@ -13,8 +13,8 @@ const initialState = {
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
     const response = await fetch(POSTS_URL);
-    const result = response.json();
-    return [...result.data];
+    const result = await response.json();
+    return [...result];
   } catch (err) {
     return err.message;
   }
@@ -42,43 +42,47 @@ const postSlice = createSlice({
         };
       },
     },
-    reactionAdded(state, action) {
-      const { postId, reaction } = action.payload;
-      const existingPost = state.posts.find((post) => post.id === postId);
-      if (existingPost) {
-        existingPost.reactions[reaction]++;
-      }
-    },
-    extraReducers(builder) {
-      builder
-        .addCase(fetchPosts.pending, (state, action) => {
-          state.status = "loading";
-        })
-        .addCase(fetchPosts.fulfilled, (state, action) => {
-          state.status = "succeeded";
-          let min = 1;
-          const loadedPosts = action.payload.map((post) => {
-            post.date = sub(new Date(), { minutes: min++ }).toISOString;
-            post.reactions = {
-              thumbsUp: 0,
-              hooray: 0,
-              heart: 0,
-              rocket: 0,
-              eyes: 0,
-            };
-            return post
-          });
-          state.posts = state.posts.concat(loadedPosts);
-        })
-        .addCase(fetchPosts.rejected, (state, action) => {
-          state.status = "failed";
-          state.error = action.error.message;
+  },
+  reactionAdded(state, action) {
+    const { postId, reaction } = action.payload;
+    const existingPost = state.posts.find((post) => post.id === postId);
+    if (existingPost) {
+      existingPost.reactions[reaction]++;
+    }
+  },
+  //the extraReducers function handles actions not defined in the within the slice. It does this by accepting a builder parameter. This builder parameter takes on a method called addCase which helps to define different functions based on the different promise action types. Basically its a switch statement that accepts the promise
+  extraReducers(builder) {
+    builder
+      .addCase(fetchPosts.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        console.log(state, action)
+        let min = 1;
+        const loadedPosts = action.payload.map((post) => {
+          post.date = sub(new Date(), { minutes: min++ }).toISOString;
+          post.reactions = {
+            thumbsUp: 0,
+            hooray: 0,
+            heart: 0,
+            rocket: 0,
+            eyes: 0,
+          };
+          return post;
         });
-    },
+        state.posts = state.posts.concat(loadedPosts);
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
   },
 });
 
 export const selectAllPosts = (state) => state.posts.posts;
+export const getPostsStatus = (state) => state.posts.status;
+export const getPostsError = (state) => state.posts.error;
 //the createSlice creates an action creator function which returns an action. An action is an object which contains type and payload keys
 export const { postAdd, reactionAdded } = postSlice.actions;
 

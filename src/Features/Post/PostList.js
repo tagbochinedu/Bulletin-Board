@@ -1,68 +1,44 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectAllPosts, reactionAdded } from "./postSlice";
-import { selectAllUsers } from "../Users/userSlice";
-import { parseISO, formatDistanceToNow } from "date-fns";
+import {
+  selectAllPosts,
+  getPostsStatus,
+  getPostsError,
+  fetchPosts,
+} from "./postSlice";
+
+import PostExcerpt from "./PostExcerpt";
 
 const PostList = () => {
+  const postsStatus = useSelector(getPostsStatus);
   const posts = useSelector(selectAllPosts);
-  const users = useSelector(selectAllUsers);
-  const dispatch= useDispatch()
+  const error = useSelector(getPostsError);
+  const dispatch = useDispatch();
 
-  const TimeStamp = (time) => {
-    let timeAgo = "";
-    const date = parseISO(time);
-    const timePeriod = formatDistanceToNow(date);
-    timeAgo = `${timePeriod} ago`;
-    return timeAgo;
-  };
-  //code snippet for arranging posts from most recent to oldest
-  const OrderedPosts = posts
-    .slice()
-    .sort((a, b) => b.date.localeCompare(a.date));
+  useEffect(() => {
+    if (postsStatus === "idle") {
+      dispatch(fetchPosts());
+    }
+  }, [postsStatus, dispatch]);
 
-  const reactionEmoji = {
-    thumbsUp: "👍🏾",
-    wow: "😮",
-    heart: "❤️",
-    rocket: "🚀",
-    coffee: "☕",
-  };
+  let content;
+  if (postsStatus === "loading") {
+    content = <p>Loading...</p>;
+  } else if (postsStatus === "succeeded") {
+    content = <p>Succeeded</p>;
+    const OrderedPost = posts.slice()
+     const OrderedPosts = OrderedPost.sort((a, b) => b.date.localeCompare(a.date));
+    content = OrderedPosts.map((post) => (
+      <PostExcerpt key={post.id} post={post} />
+    ));
+  } else if (postsStatus === "failed") {
+    content = <p>{error}</p>;
+  }
 
   return (
     <section>
       <h2>Posts</h2>
-      {OrderedPosts.map((post) => {
-        const user = users.find((user) => user.name === post.userId);
-        return (
-          <article key={post.id} className="post">
-            <h3>{post.title}</h3>
-            <p>{post.content.substring(0, 100)}</p>
-            <div>
-              {Object.entries(reactionEmoji).map(([name, emoji]) => {
-                return (
-                  <button
-                    key={name}
-                    type="button"
-                    onClick={() => {
-                      dispatch(
-                        reactionAdded({ postId: post.id, reaction: name })
-                      );
-                    }}
-                  >
-                    {emoji} {post.reactions[name]}
-                  </button>
-                );
-              })}
-            </div>
-            <div>
-              <span>by {user ? post.userId : "Unknown Author"}</span>
-              <span>
-                &nbsp;<i>{TimeStamp(post.date)}</i>
-              </span>
-            </div>
-          </article>
-        );
-      })}
+      {content}
     </section>
   );
 };
